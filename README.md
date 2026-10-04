@@ -1,15 +1,15 @@
-# simplenodeblockchain
+# SimpleNodeBlockchain
 
-To install dependencies:
+Minimal TypeScript blockchain demo (Bun).
+
+## Install
 
 ```bash
 bun install
 ```
 
-To run:
+## Run
 
 ```bash
-bun run index.ts
+bun test.ts
 ```
-
-This project was created using `bun init` in bun v1.4.2. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.

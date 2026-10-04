@@ -29,7 +29,6 @@ console.log(smashingCoin)
 
 function checkChainValidity(blockchain: CryptoBlockchain): boolean {
   for (let i = 1; i < blockchain.length; i++) {
-    console.log(1)
     const currentBlock: CryptoBlock = blockchain[i];
     const previousBlock: CryptoBlock = blockchain[i - 1];
 

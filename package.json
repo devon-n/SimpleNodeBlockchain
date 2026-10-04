@@ -1,6 +1,6 @@
 {
   "name": "simplenodeblockchain",
-  "module": "index.ts",
+  "module": "test.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
