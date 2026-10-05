@@ -45,3 +45,5 @@ function checkChainValidity(blockchain: CryptoBlockchain): boolean {
 }
 
 console.log(checkChainValidity(smashingCoin));
+
+

@@ -2,9 +2,11 @@ import { CryptoBlock } from "./CryptoBlock.ts"
 
 class CryptoBlockchain {
   public blockchain: CryptoBlock[];
+  public difficulty: number;
 
   constructor() {
     this.blockchain = [this.startGenesisBlock];
+    this.difficulty = 4
   }
 
   private startGenesisBlock(): void {
@@ -22,7 +24,7 @@ class CryptoBlockchain {
 
   public addNewBlock(newBlock: CryptoBlock): void {
     newBlock.preceedingHash = this.obtainLastBlock().hash;
-    newBlock.hash = newBlock.computeHash();
+    newBlock.proofOfWork(this.difficulty);
     this.blockchain.push(newBlock);
   }
 }
