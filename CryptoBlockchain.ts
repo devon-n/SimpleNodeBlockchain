@@ -5,25 +5,25 @@ class CryptoBlockchain {
   public difficulty: number;
 
   constructor() {
-    this.blockchain = [this.startGenesisBlock];
+    this.blockchain = [this.startGenesisBlock()];
     this.difficulty = 4
   }
 
-  private startGenesisBlock(): void {
+  private startGenesisBlock(): CryptoBlock {
     return new CryptoBlock(
       0,
-      new Date(),
-      "Init",
+      new Date().toDateString(),
+      { init: true },
       "0"
     )
   }
 
-  public obtainLastBlock(): CryptoBlock {
+  public obtainLastBlock(): CryptoBlock | undefined {
     return this.blockchain[this.blockchain.length - 1];
   }
 
   public addNewBlock(newBlock: CryptoBlock): void {
-    newBlock.preceedingHash = this.obtainLastBlock().hash;
+    newBlock.preceedingHash = this.obtainLastBlock()?.hash || '';
     newBlock.proofOfWork(this.difficulty);
     this.blockchain.push(newBlock);
   }
