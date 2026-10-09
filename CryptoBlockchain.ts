@@ -27,6 +27,25 @@ class CryptoBlockchain {
     newBlock.proofOfWork(this.difficulty);
     this.blockchain.push(newBlock);
   }
+
+  public checkChainValidity(): boolean {
+    for (let i = 1; i < this.blockchain.length; i++) {
+      const currentBlock: CryptoBlock | undefined = this.blockchain[i];
+      const previousBlock: CryptoBlock | undefined = this.blockchain[i - 1];
+
+      if (!currentBlock || !previousBlock) continue;
+
+      if (currentBlock.hash !== currentBlock.computeHash()) {
+        return false;
+      }
+
+      if (currentBlock.preceedingHash !== previousBlock.hash) {
+        return false;
+      }
+
+    }
+    return true;
+  }
 }
 
 export { CryptoBlockchain };
