@@ -1,39 +1,36 @@
 import sha256 from 'crypto-js/sha256';
+import { Transaction } from './Transactions.ts';
 
 class CryptoBlock {
 
-  public index: number;
   public timestamp: string;
-  public data: object;
+  public transactions: Transaction[];
   public preceedingHash: string;
   public hash: string;
   public nonce: number;
 
   constructor(
-    index: number,
     timestamp: string,
-    data: object,
+    transactions: Transaction[],
     preceedingHash: string = " "
   ) {
-    this.index = index;
     this.timestamp = timestamp;
-    this.data = data;
+    this.transactions = transactions;
     this.preceedingHash = preceedingHash;
     this.hash = this.computeHash();
     this.nonce = 0;
   }
 
-  computeHash() {
+  computeHash(): string {
     return sha256(
-      this.index +
       this.preceedingHash +
       this.timestamp +
-      JSON.stringify(this.data) +
+      JSON.stringify(this.transactions) +
       this.nonce
     ).toString();
   }
 
-  public proofOfWork(difficulty: number): void {
+  public mineBlock(difficulty: number): void {
     while (
       this.hash.substring(0, difficulty) !==
       Array(difficulty + 1).join("0")
