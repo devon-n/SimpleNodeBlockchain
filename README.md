@@ -1,10 +1,16 @@
 # SimpleNodeBlockchain
 
-Minimal TypeScript (Bun) blockchain demo, following [this Smashing Magazine article](https://www.smashingmagazine.com/2020/02/cryptocurrency-blockchain-node-js/).
+Minimal TypeScript (Bun) blockchain demo.
 
-- `CryptoBlock` — one block: index, timestamp, data, previous hash, nonce, SHA-256 hash, and proof-of-work
-- `CryptoBlockchain` — chain of blocks, starts with a genesis block, mines each new block at a set difficulty
-- `test.ts` — builds a short chain of transfers and checks the chain is still valid
+Based on:
+
+- [Smashing Magazine article](https://www.smashingmagazine.com/2020/02/cryptocurrency-blockchain-node-js/)
+- [SavjeeCoin YouTube playlist](https://www.youtube.com/playlist?list=PLzvRQMJhHDiTqZmbtFisdXFxul5k0F-Q4)
+
+- `Transaction` — from/to address and amount
+- `CryptoBlock` — timestamp, transactions, previous hash, nonce, SHA-256 hash, and mining (proof-of-work)
+- `CryptoBlockchain` — genesis block, pending transactions, mining rewards, balances, and chain validity
+- `tests/` — bun:test coverage for mining and rewards
 
 ## Install
 
@@ -15,5 +21,5 @@ bun install
 ## Run
 
 ```bash
-bun test.ts
+bun test
 ```
