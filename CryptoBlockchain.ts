@@ -1,5 +1,5 @@
 import { CryptoBlock } from "./CryptoBlock.ts"
-import { Transaction } from "./Transactions.ts";
+import { Transaction } from "./Transaction.ts";
 
 class CryptoBlockchain {
   public blockchain: CryptoBlock[];
@@ -15,13 +15,12 @@ class CryptoBlockchain {
   }
 
   private startGenesisBlock(): CryptoBlock {
+    const initTransaction: Transaction = new Transaction(
+      '0x0', '0x0', 0
+    )
     return new CryptoBlock(
       new Date().toDateString(),
-      [{
-        fromAddress: '0x0',
-        toAddress: '0x0',
-        amount: 0
-      }],
+      [initTransaction],
       "0"
     )
   }

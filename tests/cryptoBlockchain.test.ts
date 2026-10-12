@@ -1,7 +1,7 @@
 import { beforeAll, expect, test } from 'bun:test';
 import { CryptoBlockchain } from '../CryptoBlockchain';
 import { CryptoBlock } from '../CryptoBlock';
-import { Transaction } from '../Transactions';
+import { Transaction } from '../Transaction';
 
 let crypto: CryptoBlockchain;
 const miningRewardAddress: string = "miner";
@@ -14,11 +14,11 @@ beforeAll((): void => {
 
 test("Blockchain add a new block", (): void => {
   const sendingAmount: number = 50;
-  const transaction: Transaction = {
-    fromAddress: account1,
-    toAddress: account2,
-    amount: sendingAmount
-  }
+  const transaction: Transaction = new Transaction(
+    account1,
+    account2,
+    sendingAmount
+  )
 
   crypto.createTransaction(transaction);
   expect(crypto.pendingTransactions.length).toEqual(1);

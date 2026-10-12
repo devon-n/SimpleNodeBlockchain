@@ -1,5 +1,5 @@
 import sha256 from 'crypto-js/sha256';
-import { Transaction } from './Transactions.ts';
+import { Transaction } from './Transaction.ts';
 
 class CryptoBlock {
 
