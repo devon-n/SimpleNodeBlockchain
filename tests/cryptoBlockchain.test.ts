@@ -2,25 +2,28 @@ import { beforeAll, expect, test } from 'bun:test';
 import { CryptoBlockchain } from '../CryptoBlockchain';
 import { CryptoBlock } from '../CryptoBlock';
 import { Transaction } from '../Transaction';
+import { generateKeys } from '../keyGenerator';
 
 let crypto: CryptoBlockchain;
 const miningRewardAddress: string = "miner";
-const account1: string = "account1";
-const account2: string = "account2";
+const { publicKey: publicKey1, key: key1 } = generateKeys();
+const { publicKey: publicKey2 } = generateKeys();
+const sendingAmount: number = 50;
 
 beforeAll((): void => {
   crypto = new CryptoBlockchain();
 })
 
 test("Blockchain add a new block", (): void => {
-  const sendingAmount: number = 50;
   const transaction: Transaction = new Transaction(
-    account1,
-    account2,
+    publicKey1,
+    publicKey2,
     sendingAmount
   )
 
-  crypto.createTransaction(transaction);
+  transaction.signTransaction(key1);
+
+  crypto.addTransaction(transaction);
   expect(crypto.pendingTransactions.length).toEqual(1);
 
   crypto.minePendingTransactions(miningRewardAddress)
@@ -30,8 +33,8 @@ test("Blockchain add a new block", (): void => {
   expect(crypto.blockchain.length).toEqual(2);
   expect(latestBlock?.transactions[0]).toEqual(transaction);
 
-  const senderBalance: number = crypto.getBalance(account1);
-  const receiverBalance: number = crypto.getBalance(account2);
+  const senderBalance: number = crypto.getBalance(publicKey1);
+  const receiverBalance: number = crypto.getBalance(publicKey2);
   expect(senderBalance).toEqual(-sendingAmount);
   expect(receiverBalance).toEqual(sendingAmount);
 })
@@ -51,4 +54,11 @@ test("Blockchain should send rewards to mining address", (): void => {
 
 test("Blockchain should add blocks sequentially", (): void => {
   expect(crypto.checkChainValidity()).toBeTrue();
+})
+
+test("Blockchain should not report valid if tampered with", (): void => {
+  const transaction: Transaction | undefined = crypto.blockchain[1]?.transactions[0]
+  if (!transaction) throw new Error("Block should have been mined");
+  transaction.amount = (sendingAmount * 2);
+  expect(crypto.checkChainValidity()).toBeFalse();
 })

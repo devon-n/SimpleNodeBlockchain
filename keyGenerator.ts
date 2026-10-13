@@ -1,15 +1,15 @@
 import EC from 'elliptic';
-import BN = require("bn.js");
 
+function generateKeys(): { publicKey: string, privateKey: string, key: EC.ec.KeyPair } {
 
-const ec = new EC.ec('secp256k1');
+  const ec = new EC.ec('secp256k1');
+  const key = ec.genKeyPair();
 
-const key = ec.genKeyPair();
-const publicKey: string = key.getPublic('hex');
-const privateKey: string = key.getPrivate('hex');
+  const publicKey: string = key.getPublic('hex');
+  const privateKey: string = key.getPrivate('hex');
 
-console.log({ publicKey, privateKey })
+  return { publicKey, privateKey, key }
 
+}
 
-
-
+export { generateKeys }

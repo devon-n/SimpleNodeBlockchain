@@ -29,7 +29,8 @@ class CryptoBlockchain {
     return this.blockchain[this.blockchain.length - 1];
   }
 
-  public createTransaction(transaction: Transaction): void {
+  public addTransaction(transaction: Transaction): void {
+    if (!transaction.isValid()) throw new Error("Cannot add invalid transaction to chain");
     this.pendingTransactions.push(transaction);
   }
 
@@ -83,6 +84,10 @@ class CryptoBlockchain {
       const previousBlock: CryptoBlock | undefined = this.blockchain[i - 1];
 
       if (!currentBlock || !previousBlock) continue;
+
+      if (!currentBlock.hasValidTransaction()) {
+        return false;
+      }
 
       if (currentBlock.hash !== currentBlock.computeHash()) {
         return false;
